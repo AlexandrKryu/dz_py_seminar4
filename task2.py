@@ -2,14 +2,14 @@
 # которая составит список простых множителей числа N.
 
 num = int(input("Введите число: "))
-i = 2
+div = 2  # делитель
 list = []
 oldnum = num
-while i <= num:
-    if num % i == 0:
-        list.append(i)
-        num //= i
-        i = 2
+while div <= num:
+    if num % div == 0:
+        list.append(div)
+        num //= div
+        div = 2
     else:
-        i += 1
+        div += 1
 print(f"Простые множители числа {oldnum} = {list}")
