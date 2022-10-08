@@ -5,45 +5,37 @@
 # k=2 => 2x² + 4x + 5 = 0 или x² + 5 = 0 или 10*x² = 0
 
 
-import random
+from random import randint as rI
 
 
-def write_file(st):
-    with open('task4.txt', 'w') as data:
-        data.write(st)
+def createCoef():
+    coef = {}
+    degree = int(input("Введите максимальную степень: "))
+    for i in range(degree, -1, -1):
+        coef[i] = rI(-20, 20)
+    return coef
 
 
-def rnd():
-    return random.randint(-100, 101)
+def createEquation(coefEquation: dict):
+    equation = ''
+    first = True
 
+    for i in coefEquation.items():
+        if first:
+            first = False
+            if i[1] < 0:
+                equation += ' -' + str(abs(i[1])) + 'x^' + str(i[0])
+            elif i[1] > 0:
+                equation += str(abs(i[1])) + 'x^' + str(i[0])
+        else:
+            if i[1] < 0:
+                equation += ' - ' + str(abs(i[1])) + 'x^' + str(i[0])
+            elif i[1] > 0:
+                equation += ' + ' + str(abs(i[1])) + 'x^' + str(i[0])
 
-def create_mn(k):
-    lst = [rnd() for i in range(k + 1)]
-    return lst
+    return equation + ' = 0'
 
-
-def create_str(sp):
-    lst = sp[::-1]
-    wr = ''
-    if len(lst) < 1:
-        wr = 'x = 0'
-    else:
-        for i in range(len(lst)):
-            if i != len(lst) - 1 and lst[i] != 0 and i != len(lst) - 2:
-                wr += f'{lst[i]}x^{len(lst) - i - 1}'
-                if lst[i + 1] != 0:
-                    wr += ' + '
-            elif i == len(lst) - 2 and lst[i] != 0:
-                wr += f'{lst[i]}x'
-                if lst[i + 1] != 0:
-                    wr += ' + '
-            elif i == len(lst) - 1 and lst[i] != 0:
-                wr += f'{lst[i]} = 0'
-            elif i == len(lst) - 1 and lst[i] == 0:
-                wr += ' = 0'
-    return wr
-
-
-k = int(input('Введите натуральную степень k: '))
-koef = create_mn(k)
-write_file(create_str(koef))
+result = (createEquation(createCoef()))
+print(result)
+with open('task4.txt', 'w') as file:
+    file.write(result)
